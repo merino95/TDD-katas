@@ -1,20 +1,38 @@
-export const fizzBuzz = (num: number) => {
-    if (num >= 1 && num <= 100){
-        if (num % 3 === 0 && num % 5 === 0) { return "FizzBuzz" }
-        if (num % 3 === 0) { return "Fizz" }
-        if (num % 5 === 0) { return "Buzz" }
-        return num
+export const fizzBuzz = (aNumber: number, numbers?: number[]) => {
+    if (numbers === undefined) {
+        return fizzBuzzForNumber(aNumber);
+    } else {
+        return numbers.map(n => fizzBuzzForNumber(n));
+    }
+};
+
+export const fizzBuzzForNumber = (num: number) => {
+    if (num >= 1 && num <= 100) {
+        if(isDivisibleBy3(num) && isDivisibleBy5(num)) {
+            return 'FizzBuzz'
+        }
+        if(isDivisibleBy3(num)) {
+            return 'Fizz'
+        }
+        if(isDivisibleBy5(num)) {
+            return 'Buzz'
+        }
+        return num.toString();
     }
     else { return Error }
 };
+
+const isDivisibleBy = (divisor: number) => (n: number) => n%divisor === 0
+const isDivisibleBy3 = isDivisibleBy(3)
+const isDivisibleBy5 = isDivisibleBy(5)
 
 // genera un array de 100 elementos según las especificaciones de FizzBuzz
 export const getArray = () => {
     const start = 1
     const end = 100
-    const array: Array<string|number|ErrorConstructor> = []
+    const array: Array<string|ErrorConstructor> = []
     for (let _i = start; _i <= end; _i++) {
-        array.push(fizzBuzz(_i))
+        array.push(fizzBuzzForNumber(_i))
     }
     return array;
 };
